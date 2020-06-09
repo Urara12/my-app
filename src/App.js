@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { Doughnut } from "react-chartjs-2";
 // import Timer from "./components/Timer";
 
 function App() {
-  const initialData = [0, 40, 0, 20];
-  const [datas, setdatas] = useState(initialData);
-  const [passedSecond, setPassedSecond] = useState(0);
+  const initialData = [0, 10, 0, 20];
+  const [datas, setdatas] = useState([0, 0, 0, 0]);
+  // const [passedSecond, setPassedSecond] = useState(0);
   const [power, setPower] = useState(false);
   let startTime;
   let timer;
+
+  useEffect(() => {
+    console.log(power);
+    timer = setInterval(() => {
+      if (power) {
+        updateData();
+      } else {
+        console.log("!");
+        clearInterval(timer);
+      }
+    }, 3000);
+  }, [power]);
 
   const data = {
     labels: ["passed workout", "workout", "passed rest", "rest"],
@@ -22,6 +33,7 @@ function App() {
       },
     ],
   };
+
   const updateData = () => {
     let workout, passedWorkout, rest, passedRest;
     let newData;
@@ -34,10 +46,14 @@ function App() {
     } else if (rest > 0) {
       rest -= 10;
       passedRest += 10;
+      console.log(rest);
       newData = [passedWorkout, workout, passedRest, rest];
+      if (rest === 0) {
+        newData = initialData;
+      }
     } else {
       console.error("else");
-      newData = [0, 40, 0, 20];
+      newData = initialData;
     }
     console.log("datas", datas);
     console.log("new", newData);
@@ -48,42 +64,41 @@ function App() {
     console.log("!");
     setPower(true);
     // startTime = new Date();
-    timer = setInterval(() => {
-      // const now = new Date();
-      // console.log("start", startTime);
-      // console.log("now", now);
+    // timer = setInterval(() => {
+    //   // const now = new Date();
+    //   // console.log("start", startTime);
+    //   // console.log("now", now);
 
-      // const time = Math.floor((now - startTime) / 1000);
-      // console.warn(time);
-      // setPassedSecond(time);
-      if (power) {
-        updateData();
-      } else {
-        clearInterval();
-      }
-    }, 3000);
+    //   // const time = Math.floor((now - startTime) / 1000);
+    //   // console.warn(time);
+    //   // setPassedSecond(time);
+    //   if (power) {
+    //     updateData();
+    //   } else {
+    //     clearInterval(timer);
+    //   }
+    // }, 3000);
   };
-  console.log("passed", passedSecond);
+  // console.log("passed", passedSecond);
+  const powerOff = () => {
+    console.warn("!!!!");
+    setPower(false);
+  };
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <input type="button" value="▶️" onClick={startTimer} />
-        <input type="button" value="⏸" onClick={setPower(false)} />
+      <h1>Title</h1>
+      <div>
+        <input type="text" value="your name" />
+        <input type="button" value="save" />
+      </div>
 
-        <Doughnut data={data} id="time" />
-        {/* <Timer time={passedSecond} /> */}
-        <canvas id="myChart" width="400" height="400"></canvas>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type="button" value="▶️" onClick={startTimer} />
+      <input type="button" value="⏸" onClick={powerOff} />
+
+      <Doughnut data={data} id="time" />
+      {/* <Timer time={passedSecond} /> */}
+      <canvas id="myChart" width="400" height="400"></canvas>
     </div>
   );
 }
