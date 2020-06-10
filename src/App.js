@@ -80,7 +80,6 @@ function App() {
       <input type="button" value="stop" onClick={endTimer} />
 
       <Doughnut data={data} id="time" />
-      {/* <Timer time={passedSecond} /> */}
       <canvas id="myChart" width="400" height="400"></canvas>
     </div>
   );
