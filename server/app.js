@@ -16,6 +16,15 @@ const app = express();
 // Serve static assets
 // app.use(express.static(path.resolve(__dirname, "..", "build")));
 
+app.get("/hello", (req, res) => {
+  try {
+    res.send("Hello!!!");
+  } catch (err) {
+    console.error("Error loading locations!", err);
+    res.sendStatus(500);
+  }
+});
+
 // app.get("/api/locations", async (req, res) => {
 //   try {
 //     const locations = await db.select().table("locations");

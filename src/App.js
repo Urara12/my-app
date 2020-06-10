@@ -1,27 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { Doughnut } from "react-chartjs-2";
-// import Timer from "./components/Timer";
 
 function App() {
-  const initialData = [0, 10, 0, 20];
-  const [datas, setdatas] = useState([0, 0, 0, 0]);
-  // const [passedSecond, setPassedSecond] = useState(0);
-  const [power, setPower] = useState(false);
-  let startTime;
+  const initialData = [0, 40, 0, 20];
+  const [datas, setdatas] = useState([...initialData]);
+  const [user, setUser] = useState("");
+  const [userName, setUserName] = useState("");
   let timer;
-
-  useEffect(() => {
-    console.log(power);
-    timer = setInterval(() => {
-      if (power) {
-        updateData();
-      } else {
-        console.log("!");
-        clearInterval(timer);
-      }
-    }, 3000);
-  }, [power]);
 
   const data = {
     labels: ["passed workout", "workout", "passed rest", "rest"],
@@ -40,12 +26,12 @@ function App() {
     [passedWorkout, workout, passedRest, rest] = [...datas];
 
     if (workout > 0) {
-      workout -= 10;
-      passedWorkout += 10;
+      workout -= 1;
+      passedWorkout += 1;
       newData = [passedWorkout, workout, passedRest, rest];
     } else if (rest > 0) {
-      rest -= 10;
-      passedRest += 10;
+      rest -= 1;
+      passedRest += 1;
       console.log(rest);
       newData = [passedWorkout, workout, passedRest, rest];
       if (rest === 0) {
@@ -62,39 +48,36 @@ function App() {
 
   const startTimer = () => {
     console.log("!");
-    setPower(true);
-    // startTime = new Date();
-    // timer = setInterval(() => {
-    //   // const now = new Date();
-    //   // console.log("start", startTime);
-    //   // console.log("now", now);
-
-    //   // const time = Math.floor((now - startTime) / 1000);
-    //   // console.warn(time);
-    //   // setPassedSecond(time);
-    //   if (power) {
-    //     updateData();
-    //   } else {
-    //     clearInterval(timer);
-    //   }
-    // }, 3000);
+    timer = setInterval(updateData, 1000);
   };
-  // console.log("passed", passedSecond);
-  const powerOff = () => {
+
+  const endTimer = () => {
     console.warn("!!!!");
-    setPower(false);
+    clearInterval(timer);
+  };
+
+  const registerUser = () => {
+    console.log("!");
+    setUser(userName);
   };
 
   return (
     <div className="App">
-      <h1>Title</h1>
+      <h1>🏋️‍♂️Training Timer🏋️‍♀️</h1>
+      <h2> Welcome {user}</h2>
       <div>
-        <input type="text" value="your name" />
-        <input type="button" value="save" />
+        username:
+        <input
+          type="text"
+          onChange={(e) => {
+            setUserName(e.target.value);
+          }}
+        />
+        <input type="button" value="save" onClick={registerUser} />
       </div>
 
-      <input type="button" value="▶️" onClick={startTimer} />
-      <input type="button" value="⏸" onClick={powerOff} />
+      <input type="button" value="start" onClick={startTimer} />
+      <input type="button" value="stop" onClick={endTimer} />
 
       <Doughnut data={data} id="time" />
       {/* <Timer time={passedSecond} /> */}
@@ -104,34 +87,3 @@ function App() {
 }
 
 export default App;
-
-//
-// chart.js動かすver
-// const updateData = () => {
-//   let workout, passedWorkout, rest, passedRest;
-//   let newData;
-//   [passedWorkout, workout, passedRest, rest] = [...datas];
-
-//   // newDtas[0] += 10;
-//   // newDtas[1] -= 10;
-//   // console.log("//////////////////////");
-//   // console.log(newDtas);
-//   // // datas = newDtas;
-//   // setdatas(newDtas);
-//   if (workout > 0) {
-//     workout -= 10;
-//     passedWorkout += 10;
-//     newData = [passedWorkout, workout, passedRest, rest];
-//   } else if (rest > 0) {
-//     rest -= 10;
-//     passedRest += 10;
-//     newData = [passedWorkout, workout, passedRest, rest];
-//   } else {
-//     newData = initialData;
-//   }
-//   console.log("datas", datas);
-//   console.log("new", newData);
-//   setdatas(newData);
-// };
-// // setInterval(updateData, 3000);
-// // updateData();
