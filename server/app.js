@@ -14,7 +14,7 @@ const app = express();
 // );
 
 // Serve static assets
-// app.use(express.static(path.resolve(__dirname, "..", "build")));
+app.use(express.static(path.resolve(__dirname, "..", "build")));
 
 app.get("/hello", (req, res) => {
   try {
