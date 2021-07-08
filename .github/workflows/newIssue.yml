@@ -8,7 +8,7 @@ jobs:
   automate-project-columns:
     runs-on: ubuntu-latest
     steps:
-      - uses: alex-page/github-project-automation-plus@v0.8.0
+      - uses: Urara12/Training-Timer
         with:
           project: test
           column: TODO
